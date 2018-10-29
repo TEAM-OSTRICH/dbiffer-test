@@ -1,0 +1,24 @@
+{
+  "name": "dbiffer-testing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index.html",
+    "server": "nodemon src/server/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^1.10.3",
+    "parcel-bundler": "^1.10.3"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "nodemon": "^1.18.5",
+    "pg-promise": "^8.5.1",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0"
+  }
+}
