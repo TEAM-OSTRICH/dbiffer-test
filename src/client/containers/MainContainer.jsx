@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import DbDisplayContainer from './DbDisplayContainer.jsx';
+import DbDisplayContainer from './DbDisplayContainer';
 
 class MainContainer extends Component {
   constructor(props) {
