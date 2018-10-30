@@ -15,8 +15,11 @@
     "parcel-bundler": "^1.10.3"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "lodash": "^4.17.11",
     "nodemon": "^1.18.5",
+    "pg": "^7.6.0",
     "pg-promise": "^8.5.1",
     "react": "^16.6.0",
     "react-dom": "^16.6.0"
