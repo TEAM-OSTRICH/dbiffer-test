@@ -23130,7 +23130,7 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _DbDisplayContainer = _interopRequireDefault(require("./DbDisplayContainer.jsx"));
+var _DbDisplayContainer = _interopRequireDefault(require("./DbDisplayContainer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23196,7 +23196,7 @@ function (_Component) {
 
 var _default = MainContainer;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","./DbDisplayContainer.jsx":"src/client/containers/DbDisplayContainer.jsx"}],"src/client/App.jsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./DbDisplayContainer":"src/client/containers/DbDisplayContainer.jsx"}],"src/client/App.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23206,9 +23206,9 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _DbDisplayContainer = _interopRequireDefault(require("./containers/DbDisplayContainer.jsx"));
+var _DbDisplayContainer = _interopRequireDefault(require("./containers/DbDisplayContainer"));
 
-var _MainContainer = _interopRequireDefault(require("./containers/MainContainer.jsx"));
+var _MainContainer = _interopRequireDefault(require("./containers/MainContainer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23224,13 +23224,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 var App =
 /*#__PURE__*/
@@ -23238,15 +23238,106 @@ function (_Component) {
   _inherits(App, _Component);
 
   function App(props) {
+    var _this;
+
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
+    _this.state = {
+      u1: '',
+      u2: '',
+      input1: '',
+      input2: ''
+    };
+    _this.checkBoth = _this.checkBoth.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.change1 = _this.change1.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.change2 = _this.change2.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    return _this;
   }
 
   _createClass(App, [{
+    key: "checkBoth",
+    value: function checkBoth(event) {
+      var _this2 = this;
+
+      event.preventDefault(); // part1
+
+      var input1 = this.state.input1;
+      fetch('/check1', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify({
+          test: input1
+        })
+      }).then(function (data) {
+        return data.json();
+      }).then(function (data) {
+        return _this2.setState({
+          u1: data
+        });
+      }).then(function () {
+        // part2
+        var input2 = _this2.state.input2;
+        fetch('/check2', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+          },
+          body: JSON.stringify({
+            test: input2
+          })
+        }).then(function (data) {
+          return data.json();
+        }).then(function (data) {
+          return _this2.setState({
+            u2: data
+          });
+        }).then(function () {
+          return console.log(_this2.state);
+        }) // original button function
+        .then(function () {
+          var _this2$state = _this2.state,
+              u1 = _this2$state.u1,
+              u2 = _this2$state.u2;
+          console.log("u1", u1, "u2", u2);
+
+          if (u1.length > 0 && u2.length > 0) {
+            console.log('work!');
+          }
+        });
+      });
+    }
+  }, {
+    key: "change1",
+    value: function change1(event) {
+      this.setState({
+        input1: event.target.value
+      });
+    }
+  }, {
+    key: "change2",
+    value: function change2(event) {
+      this.setState({
+        input2: event.target.value
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement("div", null, _react.default.createElement(_MainContainer.default, null));
+      return _react.default.createElement("div", null, _react.default.createElement(_MainContainer.default, null), _react.default.createElement("h1", null, "DBiffer"), _react.default.createElement("form", null, _react.default.createElement("input", {
+        id: "DbUrl1",
+        value: this.input1,
+        onChange: this.change1
+      }), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement("input", {
+        id: "DbUrl2",
+        value: this.input2,
+        onChange: this.change2
+      }), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement("button", {
+        type: "submit",
+        onClick: this.checkBoth
+      }, "GO")));
     }
   }]);
 
@@ -23255,7 +23346,7 @@ function (_Component) {
 
 var _default = App;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","./containers/DbDisplayContainer.jsx":"src/client/containers/DbDisplayContainer.jsx","./containers/MainContainer.jsx":"src/client/containers/MainContainer.jsx"}],"src/index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./containers/DbDisplayContainer":"src/client/containers/DbDisplayContainer.jsx","./containers/MainContainer":"src/client/containers/MainContainer.jsx"}],"src/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireWildcard(require("react"));
@@ -23296,7 +23387,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53393" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56303" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
