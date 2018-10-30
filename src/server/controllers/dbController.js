@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const initOptions = {
   connect(client, dc, useCount) {
     const cp = client.connectionParameters;
@@ -20,7 +19,6 @@ const pgp = require('pg-promise')(initOptions);
 
 const oldDb = pgp('postgres://vhbazswk:J2WpO0mnB5nPzOHhhGLGiBgAE26Twt_Z@stampy.db.elephantsql.com:5432/vhbazswk');
 // const newDb = pgp(process.env.SQL_URL);
-=======
 
 let u1 = '';
 let u2 = '';
@@ -32,17 +30,7 @@ let u2 = '';
 //             // A connection-related error;
 //             //
 //             // Connections are reported back with the password hashed,
-//             // for safe errors logging, without exposing passwords.
-//             console.log('CN:', e.cn);
-//             console.log('EVENT:', error.message || error);
-//         }
-//     }
-// };
-const pgp = require('pg-promise')({});
-
-module.exports = {
-  getSchemaInfo: (req, res) => {
->>>>>>> 9195b00d50bb6cb6bcbee9c254083d3347cd087f
+//             // fors getSchemaInfo: (req, res) => {
 
 // oldDb.connect()
 //   .then((obj) => {
