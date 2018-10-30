@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import _ from 'lodash';
 import DbDisplayContainer from './DbDisplayContainer.jsx';
+=======
+import DbDisplayContainer from './DbDisplayContainer';
+>>>>>>> 9195b00d50bb6cb6bcbee9c254083d3347cd087f
 
 class MainContainer extends Component {
   constructor(props) {

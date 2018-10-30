@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const initOptions = {
   connect(client, dc, useCount) {
     const cp = client.connectionParameters;
@@ -19,6 +20,29 @@ const pgp = require('pg-promise')(initOptions);
 
 const oldDb = pgp('postgres://vhbazswk:J2WpO0mnB5nPzOHhhGLGiBgAE26Twt_Z@stampy.db.elephantsql.com:5432/vhbazswk');
 // const newDb = pgp(process.env.SQL_URL);
+=======
+
+let u1 = '';
+let u2 = '';
+
+//   const initOptions = {
+//     // global event notification;
+//     error(error, e) {
+//         if (e.cn) {
+//             // A connection-related error;
+//             //
+//             // Connections are reported back with the password hashed,
+//             // for safe errors logging, without exposing passwords.
+//             console.log('CN:', e.cn);
+//             console.log('EVENT:', error.message || error);
+//         }
+//     }
+// };
+const pgp = require('pg-promise')({});
+
+module.exports = {
+  getSchemaInfo: (req, res) => {
+>>>>>>> 9195b00d50bb6cb6bcbee9c254083d3347cd087f
 
 // oldDb.connect()
 //   .then((obj) => {
@@ -85,6 +109,34 @@ module.exports = {
         // error;
         console.log(error);
         res.sendStatus(500); // Database error.
+      });
+  },
+  checkUrl1: (req, res) => {
+  // // using an invalid connection string:
+    const db1 = pgp(req.body.test);
+    db1.connect()
+      .then((obj) => {
+        u1 = req.body.test;
+        console.log(u1, 'u1');
+        res.json(u1);
+        obj.done(); // success, release the connection;
+      })
+      .catch((error) => {
+        console.log('ERROR:', error.message || error);
+      });
+  },
+  checkUrl2: (req, res) => {
+  // // using an invalid connection string:
+    const db2 = pgp(req.body.test);
+    db2.connect()
+      .then((obj) => {
+        u2 = req.body.test;
+        console.log(u2, 'u2');
+        res.json(u2);
+        obj.done(); // success, release the connection;
+      })
+      .catch((error) => {
+        console.log('ERROR:', error.message || error);
       });
   },
 };
