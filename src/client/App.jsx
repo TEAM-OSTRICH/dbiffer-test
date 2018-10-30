@@ -11,7 +11,7 @@ class App extends Component {
       u2: '',
       input1: '',
       input2: '',
-      
+
     };
 
     this.checkBoth = this.checkBoth.bind(this);
