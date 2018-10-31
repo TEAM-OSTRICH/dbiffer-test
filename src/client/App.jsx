@@ -49,7 +49,7 @@ class App extends Component {
           // original button function
           .then(() => {
             const { u1, u2 } = this.state;
-            console.log("u1", u1, "u2", u2)
+            console.log('u1', u1, 'u2', u2);
             if (u1.length > 0 && u2.length > 0) {
               console.log('work!');
             }
@@ -72,11 +72,11 @@ class App extends Component {
         <h1>DBiffer</h1>
         <form>
           <input id="DbUrl1" value={this.input1} onChange={this.change1} />
-          {/* <button type="button" onClick={this.checkUrl1}>check</button> */}
+          <button type="button" onClick={this.checkUrl1}>check</button>
           <br />
           <br />
           <input id="DbUrl2" value={this.input2} onChange={this.change2} />
-          {/* <button type="button" onClick={this.checkUrl2}>check</button> */}
+          <button type="button" onClick={this.checkUrl2}>check</button>
           <br />
           <br />
           <button type="submit" onClick={this.checkBoth}>GO</button>

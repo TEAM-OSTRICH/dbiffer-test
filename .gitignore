@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 .cache/
 node_modules/
 package-lock.json
 dist/
-=======
-.cache
-node_modules
->>>>>>> 9195b00d50bb6cb6bcbee9c254083d3347cd087f

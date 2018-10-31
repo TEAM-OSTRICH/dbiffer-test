@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import DbDisplay from '../components/DbDisplay.jsx';
 
 const DbDisplayContainer = (props) => {
-  const { oldDb } = props;
-  const tables = oldDb.map(tableInfo => <DbDisplay key={tableInfo.name} tableInfo={tableInfo} />);
+  const { db } = props;
+  const tables = db.map(tableInfo => <DbDisplay key={tableInfo.name} tableInfo={tableInfo} />);
 
   return (
     <div id="dbDisplayContainer">
