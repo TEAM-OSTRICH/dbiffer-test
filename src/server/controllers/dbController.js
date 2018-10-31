@@ -17,9 +17,6 @@ const initOptions = {
 
 const pgp = require('pg-promise')(initOptions);
 
-const oldDb = pgp('postgres://vhbazswk:J2WpO0mnB5nPzOHhhGLGiBgAE26Twt_Z@stampy.db.elephantsql.com:5432/vhbazswk');
-// const newDb = pgp(process.env.SQL_URL);
-
 let u1 = '';
 let u2 = '';
 
@@ -42,7 +39,11 @@ let u2 = '';
 
 module.exports = {
   getSchemaInfo: (req, res, next) => {
-    oldDb.any(
+    const { url } = req.body;
+
+    const db = pgp(url);
+
+    db.any(
       `SELECT
         t.table_name,
         c.column_name,
