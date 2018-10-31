@@ -112,6 +112,7 @@ module.exports = {
       })
       .catch((error) => {
         console.log('ERROR:', error.message || error);
+        res.sendStatus(500);
       });
   },
   checkUrl2: (req, res) => {
@@ -126,6 +127,7 @@ module.exports = {
       })
       .catch((error) => {
         console.log('ERROR:', error.message || error);
+        res.sendStatus(500);
       });
   },
 };

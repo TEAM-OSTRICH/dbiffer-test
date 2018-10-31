@@ -20,11 +20,13 @@ class MainContainer extends Component {
   }
 
   componentWillMount() {
+    const { input1, input2 } = this.props;
+    console.log(this.props, input1, input2);
     // Get old db info.
     fetch('/queryDatabase', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url: 'postgres://vhbazswk:J2WpO0mnB5nPzOHhhGLGiBgAE26Twt_Z@stampy.db.elephantsql.com:5432/vhbazswk' }),
+      body: JSON.stringify({ url: input1 }),
     })
       .then(data => data.json())
       .then((schemaInfo) => {
@@ -75,7 +77,7 @@ class MainContainer extends Component {
     fetch('/queryDatabase', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url: 'postgres://dslgjgaw:vSOX1FK3PujhRKJSgm3lKL_86UADa2CU@stampy.db.elephantsql.com:5432/dslgjgaw' }),
+      body: JSON.stringify({ url: input2 }),
     })
       .then(data => data.json())
       .then((schemaInfo) => {
