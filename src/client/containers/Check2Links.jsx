@@ -1,26 +1,20 @@
 import React, { Component } from 'react';
-import { NavLink, Redirect, withRouter } from 'react-router-dom'
+import { NavLink, Redirect, withRouter } from 'react-router-dom';
 
 class Check2Links extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      u1: '',
-      u2: '',
-      input1: '',
-      input2: '',
-    };
 
     this.checkBoth = this.checkBoth.bind(this);
-    this.change1 = this.change1.bind(this);
-    this.change2 = this.change2.bind(this);
   }
-
 
   checkBoth(event) {
     event.preventDefault();
+    // console.log(this.props);
+    const {
+      input1, input2, u1, u2, updateU1, updateU2,
+    } = this.props;
     // part1
-    const { input1 } = this.state;
     fetch('/check1', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -28,55 +22,64 @@ class Check2Links extends Component {
         test: input1,
       }),
     })
-      .then(data => data.json())
-      .then(data => this.setState({ u1: data }))
-      .then(() => {
+      // .then(data => data.json())
+      // .then(data => updateU1(data))
+      .then((response) => {
+        console.log(response.json());
+        if (response.status === 200) {
         // part2
-        const { input2 } = this.state;
-        fetch('/check2', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json; charset=utf-8' },
-          body: JSON.stringify({
-            test: input2,
-          }),
-        })
-          .then(data => data.json())
-          .then(data => this.setState({ u2: data }))
-          .then(() => console.log(this.state))
+          fetch('/check2', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            body: JSON.stringify({
+              test: input2,
+            }),
+          })
+          // .then(data => data.json())
+          // .then(data => updateU2(data))
+          // .then(() => console.log(this.state))
 
           // original button function
-          .then(() => {
-            const { u1, u2 } = this.state;
-            console.log("u1", u1, "u2", u2)
-            if (u1.length > 0 && u2.length > 0) {
-              console.log('work!');
-              this.props.history.push('/kevin');
-            }
-          });
+            .then((response) => {
+              if (response === 200) {
+              // console.log('u1', u1, 'u2', u2);
+              // if (u1.length > 0 && u2.length > 0) {
+                console.log('work!');
+                this.props.history.push('/kevin');
+              } else {
+                alert('Ge so smart');
+              }
+            // }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else {
+          alert('Ges mistake');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
-  change1(event) {
-    this.setState({ input1: event.target.value });
-  }
-
-  change2(event) {
-    this.setState({ input2: event.target.value });
-  }
-
   render() {
+    const {
+      input1, input2, change1, change2,
+    } = this.props;
+    const { checkBoth } = this;
 
     return (
       <div>
         <h1>DBiffer</h1>
         <form>
-          <input id="DbUrl1" value={this.input1} onChange={this.change1} />
+          <input id="DbUrl1" value={input1} onChange={change1} />
           <br />
           <br />
-          <input id="DbUrl2" value={this.input2} onChange={this.change2} />
+          <input id="DbUrl2" value={input2} onChange={change2} />
           <br />
           <br />
-          <button type="submit" onClick={this.checkBoth}>GO</button>
+          <button type="submit" onClick={checkBoth}>GO</button>
           {/* <NavLink to="/kevin"><button>kevin</button></NavLink> */}
           {/* <button type="button"><NavLink to="/kevin2"> kevin </NavLink></button> */}
         </form>
