@@ -25,7 +25,7 @@ class Check2Links extends Component {
       // .then(data => data.json())
       // .then(data => updateU1(data))
       .then((response) => {
-        console.log(response.json());
+        console.log(response);
         if (response.status === 200) {
         // part2
           fetch('/check2', {
@@ -41,7 +41,7 @@ class Check2Links extends Component {
 
           // original button function
             .then((response) => {
-              if (response === 200) {
+              if (response.status === 200) {
               // console.log('u1', u1, 'u2', u2);
               // if (u1.length > 0 && u2.length > 0) {
                 console.log('work!');
