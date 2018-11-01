@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { diff } from 'deep-diff';
 import DbDisplayContainer from './DbDisplayContainer.jsx';
+import DiffDbDisplayContainer from './DiffDbDisplayContainer.jsx';
 
 class MainContainer extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class MainContainer extends Component {
       newDbDisplay: false,
       diffDbDisplay: false,
       scriptDisplay: false,
+      diffDbColors: [],
     };
 
     this.changeDisplay = this.changeDisplay.bind(this);
@@ -129,33 +131,94 @@ class MainContainer extends Component {
           .then(() => {
             const { oldDb, newDb } = this.state;
             const diffDb = JSON.parse(JSON.stringify(newDb));
+            const diffDbColors = {};
 
-            // Check additions.
+            // Check additions and modifications.
             oldDb.forEach((table, index) => {
               const foundTable = _.find(diffDb, { name: table.name });
 
               if (foundTable === undefined) {
-                // Add new table.
+                // Table does not exist.
                 diffDb.push(table);
+                // Add color scheme.
+                diffDbColors[`${table.name}`] = 'green';
+                // table.columns.forEach((column) => {
+                //   diffDbColors[`${table.name}-${column.name}`] = 'green';
+                // });
               } else {
+                // Table exists.
+                // Check columns.
                 table.columns.forEach((column) => {
                   const foundColumn = _.find(foundTable.columns, { name: column.name });
 
                   if (foundColumn === undefined) {
-                    // Add new table.
+                    // Column does not exist.
                     foundTable.columns.push(column);
+                    // Add color scheme.
+                    diffDbColors[`${table.name}-${column.name}`] = 'green';
                   } else {
+                    // Column exists.
+                    // Check properties.
                     const keys = Object.keys(column);
 
                     keys.forEach((key) => {
-                      foundColumn[key] = column[key];
+                      console.log(foundColumn[key], column[key]);
+                      if (foundColumn[key] === undefined) {
+                        // Property does not exist.
+                        foundColumn[key] = column[key];
+                        // Add color scheme.
+                        diffDbColors[`${table.name}-${column.name}-${column[key]}`] = 'green';
+                      } else if (foundColumn[key] !== column[key]) {
+                        // Property has been modified.
+                        foundColumn[key] = column[key];
+                        // Add color scheme.
+                        diffDbColors[`${table.name}-${column.name}-${column[key]}`] = 'yellow';
+                      }
                     });
                   }
                 });
               }
             });
 
-            this.setState({ diffDb });
+            // Check deletions.
+            diffDb.forEach((table, index) => {
+              const foundTable = _.find(oldDb, { name: table.name });
+
+              if (foundTable === undefined) {
+                // Table does not exist.
+                // Add color scheme.
+                diffDbColors[`${table.name}`] = 'red';
+                // table.columns.forEach((column) => {
+                //   diffDbColors[`${table.name}-${column.name}`] = 'green';
+                // });
+              } else {
+                // Table exists.
+                // Check columns.
+                table.columns.forEach((column) => {
+                  const foundColumn = _.find(foundTable.columns, { name: column.name });
+
+                  if (foundColumn === undefined) {
+                    // Column does not exist.
+                    // Add color scheme.
+                    diffDbColors[`${table.name}-${column.name}`] = 'red';
+                  } else {
+                    // Column exists.
+                    // Check properties.
+                    const keys = Object.keys(column);
+
+                    keys.forEach((key) => {
+                      if (foundColumn[key] === undefined) {
+                        // Property does not exist.
+                        // Add color scheme.
+                        diffDbColors[`${table.name}-${column.name}-${column[key]}`] = 'red';
+                      }
+                    });
+                  }
+                });
+              }
+            });
+            // console.log(diffDbColors);
+            this.setState({ diffDb, diffDbColors });
           });
       });
   }
@@ -174,7 +237,7 @@ class MainContainer extends Component {
 
   render() {
     const {
-      oldDb, newDb, diffDb, oldDbDisplay, newDbDisplay, diffDbDisplay, scriptDisplay,
+      oldDb, newDb, diffDb, oldDbDisplay, newDbDisplay, diffDbDisplay, scriptDisplay, diffDbColors,
     } = this.state;
     const { changeDisplay } = this;
 
@@ -186,7 +249,7 @@ class MainContainer extends Component {
         <button id="scriptDisplay" onClick={(event) => { changeDisplay(event); }}>Script</button>
         {oldDbDisplay ? <DbDisplayContainer db={oldDb} /> : null}
         {newDbDisplay ? <DbDisplayContainer db={newDb} /> : null}
-        {diffDbDisplay ? <DbDisplayContainer db={diffDb} /> : null}
+        {diffDbDisplay ? <DiffDbDisplayContainer db={diffDb} diffDbColors={diffDbColors} /> : null}
         {/* {oldDbDisplay ? <DbDisplayContainer script={script} /> : null} */}
       </div>
     );
